@@ -7,6 +7,6 @@ jobs:
           pool:
             vmImage: ${{ image }}
           steps:
-            - script: dotnet test --configuration:Release test/Novell.Directory.Ldap.NETStandard.FunctionalTests/Novell.Directory.Ldap.NETStandard.FunctionalTests.csproj -f net5
+            - script: dotnet test --configuration:Release test/Novell.Directory.Ldap.NETStandard.FunctionalTests/Novell.Directory.Ldap.NETStandard.FunctionalTests.csproj -f netcoreapp3.1
               env:
                 TRANSPORT_SECURITY: ${{ security }}
