@@ -9,5 +9,12 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  buildConfiguration: 'Release'
+
 jobs:
   - template: matrix.yml
+    parameters:
+      image: ['windows-2019', 'ubuntu-latest']
+      concurrency_level: [10, 20]
+      security: ['TLS']

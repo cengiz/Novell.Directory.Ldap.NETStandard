@@ -1,17 +1,12 @@
-parameters:
-  os: ['windows-2019', 'ubuntu-latest']
-  concurrency_level: [10, 20, 30]
-  security: ['OFF', 'SSL', 'TLS']
-
 jobs:
-  - ${{ each os in parameters.os }}:
+  - ${{ each image in parameters.image }}:
     - ${{ each concurrency_level in parameters.concurrency_level }}:
       - ${{ each security in parameters.security }}:
         - job: 
           displayName: ${{ os }}_${{ concurrency_level }}_${{ security }}
+          pool:
+            vmImage: ${{ image }}
           steps:
-          - task: Powershell@2
-            displayName: '${{ os }}-${{ concurrency_level }}-${{ security }}'
-            inputs:
-              targettype: inline
-              script: dotnet build --configuration $(buildConfiguration)
+            - script: dotnet test --configuration:Release test/Novell.Directory.Ldap.NETStandard.FunctionalTests/Novell.Directory.Ldap.NETStandard.FunctionalTests.csproj -f net5
+              env:
+                TRANSPORT_SECURITY: ${{ security }}
