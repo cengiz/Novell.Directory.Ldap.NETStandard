@@ -3,7 +3,7 @@ jobs:
     - ${{ each concurrency_level in parameters.concurrency_level }}:
       - ${{ each security in parameters.security }}:
         - job: 
-          displayName: ${{ os }}_${{ concurrency_level }}_${{ security }}
+          displayName: ${{ image }}_${{ concurrency_level }}_${{ security }}
           pool:
             vmImage: ${{ image }}
           steps:
