@@ -15,6 +15,6 @@ variables:
 jobs:
   - template: matrix.yml
     parameters:
-      image: ['windows-2019', 'ubuntu-latest']
+      image: ['ubuntu-20.04', 'macOS-10.15']
       concurrency_level: [10, 20]
-      security: ['TLS']
+      security: ['OFF', 'TLS']
