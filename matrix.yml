@@ -7,4 +7,7 @@ jobs:
           pool:
             vmImage: ${{ image }}
           steps:
-            - script: ./build.sh
+            - task: Bash@3
+              inputs:
+                filePath: 'build.sh'
+                arguments: '-Fx net5'          
