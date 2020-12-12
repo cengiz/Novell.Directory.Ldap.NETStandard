@@ -23,7 +23,7 @@ if ([System.IO.Path]::GetFileName($MyInvocation.ScriptName) -ne 'Invoke-Build.ps
 		Import-Module InvokeBuild -RequiredVersion $InvokeBuildVersion
 	}
 	catch {
-		Install-Module InvokeBuild -RequiredVersion $InvokeBuildVersion -Scope AllUsers -Force
+		Install-Module InvokeBuild -RequiredVersion $InvokeBuildVersion -Scope CurrentUser -Force
 		Import-Module InvokeBuild -RequiredVersion $InvokeBuildVersion
 	}
 	Invoke-Build -Task $Tasks -File $MyInvocation.MyCommand.Path @PSBoundParameters
