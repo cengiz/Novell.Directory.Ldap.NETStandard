@@ -10,8 +10,8 @@ sudo certtool -s --load-privkey /tmp/ssl/private/ca_server.key --template test/c
 sudo certtool -p --sec-param low --outfile /tmp/ssl/private/ldap_server.key
 sudo certtool -c --load-privkey /tmp/ssl/private/ldap_server.key --load-ca-certificate /tmp/ssl/certs/ca_server.pem --load-ca-privkey /tmp/ssl/private/ca_server.key --template test/conf/cert_template.conf --outfile /tmp/ssl/certs/ldap_server.pem
 # permissions
-sudo usermod -aG ssl-cert travis
-sudo chown travis:ssl-cert /tmp/ssl/private/ldap_server.key /tmp/ssl/certs/ldap_server.pem /tmp/ssl/certs/ca_server.pem
+# sudo usermod -aG ssl-cert travis
+# sudo chown travis:ssl-cert /tmp/ssl/private/ldap_server.key /tmp/ssl/certs/ldap_server.pem /tmp/ssl/certs/ca_server.pem
 sudo chmod 640 /tmp/ssl/private/ldap_server.key /tmp/ssl/certs/ldap_server.pem /tmp/ssl/certs/ca_server.pem
 # end setup ssl
 # start ssl

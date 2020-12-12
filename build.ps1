@@ -44,8 +44,6 @@ task test-unit {
 }
 
 task configure-opendj {
-	exec { chmod ugo+x configure-opendj.sh }
-
     exec { whoami }
 
     exec {
@@ -58,9 +56,6 @@ task configure-opendj {
         sleep 30
         docker ps -a
     }
-
-    Test-Connection -TargetName localhost -TcpPort 4389
-    Test-Connection -TargetName localhost -TcpPort 4636
 }
 
 task test-functional configure-opendj, {
@@ -83,7 +78,7 @@ task test-functional configure-opendj, {
     }
 }
 
-task after-test-functional -After test-functional {
+task remove-opendj -After test-functional {
     exec {
         docker kill opendj
     }
@@ -93,6 +88,38 @@ task after-test-functional -After test-functional {
 }
 
 task test test-unit, test-functional, {
+}
+
+task configure-openldap {
+    exec {
+        sudo apt-get update
+    }
+    exec {
+        sudo apt-get install ldap-utils gnutls-bin ssl-cert slapd -y
+    }
+    exec {
+        bash configure-openldap.sh
+    }
+}
+
+task remove-openldap -After test-stress {
+    exec {
+        service slapd stop
+    }
+    exec {
+        sudo apt-get remove slapd -y
+    }
+    exec {
+        rm /tmp/slapd -r -f
+    }
+}
+
+task test-stress configure-openldap, {
+    $env:TRANSPORT_SECURITY="OFF"
+    exec {
+        dotnet run --configuration $CONFIGURATION `
+            --project test/Novell.Directory.Ldap.NETStandard.StressTests/Novell.Directory.Ldap.NETStandard.StressTests.csproj 10 30
+    }
 }
 
 task clean {
